@@ -1,7 +1,7 @@
 module Viget
   module Format
     def constant_name
-      value = self.strip.gsub(/\s+/, '_').gsub(/[^\w_]/, '').downcase.classify
+      value = self.strip.gsub(/\s+/, '_').gsub(/[^\w_]/, '').downcase.camelize
       value = nil if value.blank?
       value
     end

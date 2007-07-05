@@ -18,6 +18,10 @@ class FormatTest < Test::Unit::TestCase
     assert_equal 'Test', '!test.?'.constant_name
   end
   
+  def test_constant_name_should_not_singularize_plural_name
+    assert_equal 'Tests', 'tests'.constant_name
+  end
+  
   def test_constant_name_should_return_nil_if_all_chars_removed
     assert_nil '?'.constant_name
   end
