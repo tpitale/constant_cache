@@ -7,9 +7,9 @@ account_statuses table with a corresponding model, your constants may look
 like this:
 
   class AccountStatus
-    ACTIVE  = 1
-    PENDING = 2
-    DISABLE = 3
+    Active   = 1
+    Pending  = 2
+    Disabled = 3
   end
 
 There are a couple problems with this approach:
@@ -21,7 +21,7 @@ The constants are stored as integer values and need to match up exactly
 with the data that's in the table (not necessarily a bad thing), but this
 solution forces you to write code like this:
 
-Account.new(:username => 'preagan', :status => AccountStatus.find(AccountStatus::PENDING))
+Account.new(:username => 'preagan', :status => AccountStatus.find(AccountStatus::Pending))
 
 This requires multiple calls to find and obfuscates the code a bit.  Since classes
 in Ruby are executable code, we can cache the objects from the database at runtime
@@ -50,7 +50,7 @@ We can use the plugin to cache the data in the table:
 
 Now you can write code that's a little cleaner and not use multiple unnecessary find calls:
 
-  Account.new(:username => 'preagan', :status => AccountStatus::PENDING)
+  Account.new(:username => 'preagan', :status => AccountStatus::Pending)
 
 If the column you want to use as the constant isn't 'name', you can set that in the model. If
 we have :name, :slug, and :description, we can use 'slug' instead:
