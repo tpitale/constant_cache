@@ -4,7 +4,11 @@ class BaseClass < ActiveRecord::Base
   def self.columns; []; end
 end
 
-class SimpleClass < BaseClass; attr_accessor :name, :value; end
+class SimpleClass < BaseClass
+  PREDEFINED = 'foo'
+  attr_accessor :name, :value
+end
+
 class AlternateClass < BaseClass; attr_accessor :name2, :value; end
 
 class CacheAsConstantsTest < Test::Unit::TestCase
@@ -28,10 +32,22 @@ class CacheAsConstantsTest < Test::Unit::TestCase
     assert_equal constant_count, SimpleClass.constants.size
   end
   
-  def test_cache_with_duplicate_constant_name_should_use_original
+  def test_cache_with_duplicate_constant_name_should_raise_runtime_exception
     SimpleClass.expects(:find).returns([SimpleClass.new(:name => 'duplicate', :value => 'original'), SimpleClass.new(:name => 'duplicate', :value => 'new')])
-    SimpleClass.caches_constants
-    assert_equal 'original', SimpleClass::DUPLICATE.value
+    assert_raise(RuntimeError) { SimpleClass.caches_constants }
+  end
+  
+  def test_cache_with_duplicate_constant_name_should_contain_appropriate_exception_message
+    SimpleClass.expects(:find).returns([SimpleClass.new(:name => 'predefined', :value => 'foo')])
+    exception_raised = false
+    begin
+      SimpleClass.caches_constants
+    rescue RuntimeError => e
+      exception_raised = true
+      assert_equal 'Constant SimpleClass::PREDEFINED has already been defined', e.message
+    end
+    
+    assert exception_raised
   end
   
   def test_cache_with_long_value_should_truncate_at_default_length
@@ -56,8 +72,7 @@ class CacheAsConstantsTest < Test::Unit::TestCase
   
   def test_cache_with_truncated_value_and_limit_should_not_overwrite_constant
     SimpleClass.expects(:find).returns([SimpleClass.new(:name => 'abcdef', :value => 'one'), SimpleClass.new(:name => 'abggh', :value => 'two')])
-    SimpleClass.caches_constants :limit => 2
-    assert_equal 'one', SimpleClass::AB.value
+    assert_raise(RuntimeError) { SimpleClass.caches_constants :limit => 2 }
   end
   
 end
