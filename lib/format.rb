@@ -7,6 +7,3 @@ module Viget
     end
   end
 end
-
-# This only appears to work here, and not in init.rb (need to investigate w/ non-edge Rails)
-class String; include Viget::Format; end

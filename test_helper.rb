@@ -4,7 +4,6 @@ require 'rubygems'
 require 'test/unit'
 require 'mocha'
 require 'active_record'
-require "#{lib_dir}/format"
-require "#{lib_dir}/constant_cache"
 
-ActiveRecord::Base.send(:extend, Viget::ConstantCache::ClassMethods)
+# Re-use plugin initialization
+require File.dirname(__FILE__) + '/init'
