@@ -13,6 +13,25 @@ class AlternateClass < BaseClass; attr_accessor :name2, :value; end
 
 class CacheAsConstantsTest < Test::Unit::TestCase
   
+  def setup_simple_class(object_list = [])
+    object_list = [object_list] unless object_list.is_a?(Array)
+    SimpleClass.expects(:find).returns(object_list)
+    SimpleClass.caches_constants
+  end
+  
+  def test_caches_constants_should_set_options_in_class
+    setup_simple_class
+    assert_equal({:key => :name, :limit => 64}, SimpleClass.cache_options)
+  end
+  
+  def test_caches_constants_with_additional_fields_should_overwrite_defaults
+    additional_options = {:key => :new_key, :limit => 100}
+    
+    SimpleClass.expects(:find).returns([])
+    SimpleClass.caches_constants(additional_options)
+    assert_equal(additional_options, SimpleClass.cache_options)
+  end
+  
   def test_cache_should_use_name_as_default
     SimpleClass.expects(:find).returns([SimpleClass.new(:name => 'one', :value => 'pony')])
     SimpleClass.caches_constants
@@ -73,6 +92,29 @@ class CacheAsConstantsTest < Test::Unit::TestCase
   def test_cache_with_truncated_value_and_limit_should_not_overwrite_constant
     SimpleClass.expects(:find).returns([SimpleClass.new(:name => 'abcdef', :value => 'one'), SimpleClass.new(:name => 'abggh', :value => 'two')])
     assert_raise(RuntimeError) { SimpleClass.caches_constants :limit => 2 }
+  end
+
+  # TODO: do we want this behavior?
+  # def test_constant_cache_destroy_with_existing_constant_should_unset_constant
+  #   constant_name = 'EXISTING_CONSTANT'
+  #   simple_class = SimpleClass.new(:name => 'existing constant')
+  #   
+  #   setup_simple_class(simple_class)
+  # 
+  #   assert_equal true, SimpleClass.const_defined?(constant_name)
+  #   simple_class.constant_cache_destroy
+  #    
+  #   assert_equal false, SimpleClass.const_defined?(constant_name)
+  # end
+  
+  # TODO: do we want this behavior?
+  # def test_constant_cache_destroy_with_non_existant_constant_should_not_raise_errors
+  #   setup_simple_class
+  #   assert_nothing_raised { SimpleClass.new(:name => 'foo').constant_cache_destroy }
+  # end
+  
+  def test_create_should_define_constant
+    # TODO: Do we want this behavior?
   end
   
 end
