@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
   s.version = ConstantCache::VERSION::STRING
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = true
-  s.extra_rdoc_files = %w(README MIT-LICENSE)
+  s.extra_rdoc_files = %w(README MIT-LICENSE HISTORY)
   s.summary = SUMMARY
   s.description = s.summary
   s.author = AUTHOR
@@ -27,7 +27,7 @@ spec = Gem::Specification.new do |s|
   
   s.require_path = 'lib'
   s.autorequire = GEM
-  s.files = %w(MIT-LICENSE README Rakefile) + Dir.glob("{lib,spec}/**/*")
+  s.files = %w(MIT-LICENSE README Rakefile HISTORY) + Dir.glob("{lib,spec}/**/*")
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
