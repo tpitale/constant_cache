@@ -1,4 +1,4 @@
-CachesConstants
+ConstantCache
 ===============
 
 When your database has tables that store lookup data, there is a tendency 
@@ -12,7 +12,7 @@ like this:
     DISABLED = 3
   end
 
-There are a couple problems with this approach:
+There are a couple of problems with this approach:
 
 As you add more lookup data to the table, you need to ensure that you're 
 updating your models along with the data.  
@@ -27,11 +27,17 @@ This requires multiple calls to find and obfuscates the code a bit.  Since class
 in Ruby are executable code, we can cache the objects from the database at runtime
 and use them in your application.
 
+Installation
+============
+
+This code is packaged as a gem, so simply use the `gem` command to install:
+
+  gem install constant_cache
 
 Example
 =======
 
-The caches_constants plugin "out of the box" assumes that you want to generate
+"Out of the box," the constant_cache gem assumes that you want to use the 'name' column to generate
 constants from a column called 'name' in your database table.  Assuming this schema:
 
   create_table :account_statuses do |t|
@@ -66,4 +72,4 @@ well:
     caches_constants :limit => 16
   end
 
-Copyright (c) 2007 Patrick Reagan (patrick@viget.com), released under the MIT license
+Copyright (c) 2007 Patrick Reagan of Viget Labs (patrick.reagan@viget.com), released under the MIT license

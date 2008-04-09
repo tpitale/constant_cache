@@ -1,11 +1,17 @@
-module Viget
-  module ConstantCache
+module ConstantCache
+  
+  class DuplicateConstantError < StandardError; end
+  class InvalidLimitError < StandardError; end
+  
+  module CacheMethods
 
     module ClassMethods
       def caches_constants(additional_options = {})
         cattr_accessor :cache_options
-        
+
         self.cache_options = {:key => :name, :limit => 64}.merge(additional_options)
+        
+        raise ConstantCache::InvalidLimitError, "Limit of #{self.cache_options[:limit]} is invalid" if self.cache_options[:limit] < 1        
         find(:all).each {|model| model.set_instance_as_constant }
       end
     end
@@ -21,7 +27,7 @@ module Viget
       def set_instance_as_constant
         const = constant_name
         if !const.blank?
-          raise RuntimeError, "Constant #{self.class.to_s}::#{const} has already been defined" if self.class.const_defined?(const)
+          raise ConstantCache::DuplicateConstantError, "Constant #{self.class.to_s}::#{const} has already been defined" if self.class.const_defined?(const)
           self.class.const_set(const, self) if !const.blank?
         end
       end
@@ -33,5 +39,6 @@ module Viget
       # end
 
     end
+    
   end
 end
