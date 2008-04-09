@@ -1,22 +1,36 @@
-require 'rake'
-require 'rake/testtask'
-require 'rake/rdoctask'
+require 'rubygems'
+require 'rake/gempackagetask'
 
-desc 'Default: run unit tests.'
-task :default => :test
+GEM = "constant_cache"
+VERSION = "0.0.1"
+AUTHOR = "Patrick Reagan"
+EMAIL = "patrick.reagan@viget.com"
+HOMEPAGE = "http://www.viget.com/extend/"
+SUMMARY = "Patches active record to add a caches_constants class method that will cache lookup data for your application."
 
-desc 'Test the caches_constants plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
+spec = Gem::Specification.new do |s|
+  s.name = GEM
+  s.version = VERSION
+  s.platform = Gem::Platform::RUBY
+  s.has_rdoc = true
+  s.extra_rdoc_files = %w(README MIT-LICENSE)
+  s.summary = SUMMARY
+  s.description = s.summary
+  s.author = AUTHOR
+  s.email = EMAIL
+  s.homepage = HOMEPAGE
+  
+  s.add_dependency "activerecord"
+  
+  s.require_path = 'lib'
+  s.autorequire = GEM
+  s.files = %w(MIT-LICENSE README Rakefile) + Dir.glob("{lib,specs}/**/*")
 end
 
-desc 'Generate documentation for the caches_constants plugin.'
-Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'CachesConstants'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+Rake::GemPackageTask.new(spec) do |pkg|
+  pkg.gem_spec = spec
+end
+
+task :install => [:package] do
+  sh %{sudo gem install pkg/#{GEM}-#{VERSION}}
 end
