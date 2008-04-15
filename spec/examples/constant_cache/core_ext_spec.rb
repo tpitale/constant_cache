@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe String, "with constant_name method" do
-  
-  before { String.send(:include, ConstantCache::Format) }
+describe String do
   
   it "should upcase its characters" do
     'test'.constant_name.should == 'TEST'

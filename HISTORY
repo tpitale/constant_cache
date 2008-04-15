@@ -1,3 +1,9 @@
+== 0.0.2 2009-04-??
+
+* Enhancements
+  * Better documentation
+  * Modify String class directly instead of using a mix-in
+
 == 0.0.1 2008-04-08
 
 * 1 major enhancement:

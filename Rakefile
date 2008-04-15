@@ -26,8 +26,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency('activesupport', '>= 2.0.2')
   
   s.require_path = 'lib'
-  s.autorequire = GEM
-  s.files = %w(MIT-LICENSE README Rakefile HISTORY) + Dir.glob("{lib,spec}/**/*")
+  s.files = %w(MIT-LICENSE README  Rakefile HISTORY) + Dir.glob("{lib,spec}/**/*")
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|

@@ -5,8 +5,6 @@ require 'mocha'
 require 'activesupport'
 require 'activerecord'
 
-
-
 lib_dir = File.join(File.dirname(__FILE__), %w(.. lib constant_cache))
 
 Dir.glob("#{lib_dir}/*.rb").each {|file| require file }
@@ -27,7 +25,6 @@ end
 Spec::Runner.configuration.mock_with :mocha
 Spec::Runner.configuration.include ConstantCache::SpecHelper
 
-String.send(:include, ConstantCache::Format)
 ActiveRecord::Base.send(:include, ConstantCache::CacheMethods::InstanceMethods)
 ActiveRecord::Base.send(:extend, ConstantCache::CacheMethods::ClassMethods)
 

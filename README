@@ -1,5 +1,4 @@
-ConstantCache
-===============
+= Constant Cache
 
 When your database has tables that store lookup data, there is a tendency 
 to provide those values as constants in the model.  If you have an
@@ -21,21 +20,19 @@ The constants are stored as integer values and need to match up exactly
 with the data that's in the table (not necessarily a bad thing), but this
 solution forces you to write code like this:
 
-Account.new(:username => 'preagan', :status => AccountStatus.find(AccountStatus::PENDING))
+  Account.new(:username => 'preagan', :status => AccountStatus.find(AccountStatus::PENDING))
 
 This requires multiple calls to find and obfuscates the code a bit.  Since classes
 in Ruby are executable code, we can cache the objects from the database at runtime
 and use them in your application.
 
-Installation
-============
+== Installation
 
 This code is packaged as a gem, so simply use the `gem` command to install:
 
   gem install constant_cache
 
-Example
-=======
+== Example
 
 "Out of the box," the constant_cache gem assumes that you want to use the 'name' column to generate
 constants from a column called 'name' in your database table.  Assuming this schema:
@@ -72,4 +69,9 @@ well:
     caches_constants :limit => 16
   end
 
-Copyright (c) 2007 Patrick Reagan of Viget Labs (patrick.reagan@viget.com), released under the MIT license
+== Acknowlegements
+
+Thanks to Dave Thomas for inspiring me to write this during his Metaprogramming talk at a Rails Edge 
+conference in early 2007.
+
+Copyright (c) 2007 Patrick Reagan of Viget Labs (mailto:patrick.reagan@viget.com), released under the MIT license
