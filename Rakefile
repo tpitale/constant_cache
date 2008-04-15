@@ -8,7 +8,7 @@ GEM = "constant_cache"
 AUTHOR = "Patrick Reagan"
 EMAIL = "patrick.reagan@viget.com"
 HOMEPAGE = "http://www.viget.com/extend/"
-SUMMARY = "Patches active record to add a caches_constants class method that will cache lookup data for your application."
+SUMMARY = "Patches ActiveRecord::Base to add a caches_constants class method that will cache lookup data for your application."
 
 spec = Gem::Specification.new do |s|
   s.name = GEM
