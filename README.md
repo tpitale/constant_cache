@@ -5,11 +5,11 @@ to provide those values as constants in the model.  If you have an
 account_statuses table with a corresponding model, your constants may look
 like this:
 
-  class AccountStatus
-    ACTIVE   = 1
-    PENDING  = 2
-    DISABLED = 3
-  end
+    class AccountStatus
+      ACTIVE   = 1
+      PENDING  = 2
+      DISABLED = 3
+    end
 
 There are a couple of problems with this approach:
 
@@ -20,7 +20,7 @@ The constants are stored as integer values and need to match up exactly
 with the data that's in the table (not necessarily a bad thing), but this
 solution forces you to write code like this:
 
-  Account.new(:username => 'preagan', :status => AccountStatus.find(AccountStatus::PENDING))
+    Account.new(:username => 'preagan', :status => AccountStatus.find(AccountStatus::PENDING))
 
 This requires multiple calls to find and obfuscates the code a bit.  Since classes
 in Ruby are executable code, we can cache the objects from the database at load time
@@ -45,7 +45,7 @@ to #cache_constants (cache is a verb, implying an action or event)
 
 This code is packaged as a gem, so simply use the `gem` command to install:
 
-  gem install constant_cache
+    gem install constant_cache
 
 ## Example
 
