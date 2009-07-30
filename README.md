@@ -95,4 +95,5 @@ well:
 Thanks to Dave Thomas for inspiring me to write this during his Metaprogramming talk at a Rails Edge 
 conference in early 2007.
 
-Copyright (c) 2009 Patrick Reagan and Tony Pitale of Viget Labs (mailto:patrick.reagan@viget.com), released under the MIT license
+Copyright (c) 2009 [Patrick Reagan](mailto:patrick.reagan@viget.com) and [Tony Pitale](mailto:tony.pitale@viget.com)
+of Viget Labs, released under the MIT license
