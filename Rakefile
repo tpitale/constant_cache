@@ -1,45 +1,50 @@
 require 'rubygems'
 require 'rake/gempackagetask'
-require 'spec/rake/spectask'
+require 'rake/testtask'
 
 require 'lib/constant_cache/version'
 
-GEM = "constant_cache"
-AUTHOR = "Patrick Reagan"
-EMAIL = "patrick.reagan@viget.com"
-HOMEPAGE = "http://www.viget.com/extend/"
-SUMMARY = "Patches ActiveRecord::Base to add a caches_constants class method that will cache lookup data for your application."
-
 spec = Gem::Specification.new do |s|
-  s.name = GEM
-  s.version = ConstantCache::VERSION::STRING
-  s.platform = Gem::Platform::RUBY
-  s.has_rdoc = true
-  s.extra_rdoc_files = %w(README MIT-LICENSE HISTORY)
-  s.summary = SUMMARY
-  s.description = s.summary
-  s.author = AUTHOR
-  s.email = EMAIL
-  s.homepage = HOMEPAGE
-  
-  s.add_dependency('activerecord', '>= 2.0.2')
-  s.add_dependency('activesupport', '>= 2.0.2')
-  
-  s.require_path = 'lib'
-  s.files = %w(MIT-LICENSE README  Rakefile HISTORY) + Dir.glob("{lib,spec}/**/*")
+  s.name             = "constant_cache"
+  s.version          = ConstantCache::Version.to_s
+  s.has_rdoc         = true
+  s.extra_rdoc_files = %w(README.md)
+  s.summary          = ""
+  s.authors          = ["Patrick Reagan", "Tony Pitale"]
+  s.email            = "patrick.reagan@viget.com"
+  s.homepage         = "http://www.viget.com/extend/"
+  s.files = %w(MIT-LICENSE README.md Rakefile) + Dir.glob("{lib,test}/**/*")
+
+  # s.add_dependency('gem', '~> version')
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
 end
 
-task :install => [:package] do
-  sh %{sudo gem install pkg/#{GEM}-#{VERSION}}
+Rake::TestTask.new do |t|
+  t.libs << 'test'
+  t.test_files = FileList["test/**/*_test.rb"]
+  t.verbose = true
 end
 
-Spec::Rake::SpecTask.new do |t|
-  t.spec_files = FileList['spec/examples/**/*_spec.rb']
-  t.rcov = true
-  t.rcov_opts = ['--exclude', 'spec']
-  t.spec_opts = ['--format', 'specdoc']
+desc 'Generate the gemspec to serve this Gem from Github'
+task :github do
+  file = File.dirname(__FILE__) + "/#{spec.name}.gemspec"
+  File.open(file, 'w') {|f| f << spec.to_ruby }
+  puts "Created gemspec: #{file}"
 end
+
+begin
+  require 'rcov/rcovtask'
+
+  desc "Generate RCov coverage report"
+  Rcov::RcovTask.new(:rcov) do |t|
+    t.test_files = FileList['test/**/*_test.rb']
+    t.rcov_opts << "-x lib/constant_cache.rb -x lib/constant_cache/version.rb"
+  end
+rescue LoadError
+  nil
+end
+
+task :default => :test
