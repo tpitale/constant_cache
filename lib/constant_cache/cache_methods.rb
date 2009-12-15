@@ -59,13 +59,8 @@ module ConstantCache
   # Create a constant on the class that pointing to an instance
   #
   def set_instance_as_constant
-    unless constant_name.nil?
-      if self.class.const_defined?(constant_name)
-        msg = "Constant #{self.class.to_s}::#{constant_name} has already been defined"
-        raise ConstantCache::DuplicateConstantError, msg
-      else
-        self.class.const_set(constant_name, self)
-      end
+    unless constant_name.nil? || self.class.const_defined?(constant_name)
+      self.class.const_set(constant_name, self)
     end
   end
 

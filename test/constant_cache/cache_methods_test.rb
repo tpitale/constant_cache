@@ -61,9 +61,9 @@ class CacheMethodsTest < Test::Unit::TestCase
       Cached.constants.size.should == size
     end
 
-    should "raise an exception on duplicate constant" do
+    should "not raise an exception on duplicate constant" do
       @cached.name = 'buffalo'
-      assert_raises ConstantCache::DuplicateConstantError do
+      assert_nothing_raised do
         @cached.set_instance_as_constant
         @cached.set_instance_as_constant
       end
