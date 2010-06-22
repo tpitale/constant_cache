@@ -6,4 +6,9 @@ require 'shoulda'
 require 'matchy'
 require 'mocha'
 
-require File.dirname(__FILE__) + '/../lib/constant_cache'
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+require 'constant_cache'
+
+class Test::Unit::TestCase
+end
