@@ -28,6 +28,10 @@ and use them in your application.
 
 ## Changes
 
+### Major changes in version 0.2.0:
+
+Split versions for DM and AR. For dm use: gem 'dm-constant-cache', '0.2.0', :require => 'constant\_cache'
+
 ### Major changes in version 0.1.0:
 
 In order to support DataMapper as well as ActiveRecord, and to reduce dependencies

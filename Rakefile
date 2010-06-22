@@ -32,7 +32,7 @@ begin
   desc "Generate RCov coverage report"
   Rcov::RcovTask.new(:rcov) do |t|
     t.test_files = FileList['test/**/*_test.rb']
-    t.rcov_opts << "-x lib/constant_cache.rb -x lib/constant_cache/version.rb"
+    t.rcov_opts << "-x lib/constant_cache.rb"
   end
 rescue LoadError
   nil
