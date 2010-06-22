@@ -5,13 +5,13 @@ require 'rake/testtask'
 require 'lib/constant_cache/version'
 
 spec = Gem::Specification.new do |s|
-  s.name             = "constant_cache"
+  s.name             = "dm-constant-cache"
   s.version          = ConstantCache::Version.to_s
   s.has_rdoc         = true
   s.extra_rdoc_files = %w(README.md)
   s.summary          = ""
-  s.authors          = ["Patrick Reagan", "Tony Pitale"]
-  s.email            = "patrick.reagan@viget.com"
+  s.authors          = ["Tony Pitale", "Patrick Reagan"]
+  s.email            = "tony.pitale@viget.com"
   s.homepage         = "http://www.viget.com/extend/"
   s.files = %w(MIT-LICENSE README.md Rakefile) + Dir.glob("{lib,test}/**/*")
 

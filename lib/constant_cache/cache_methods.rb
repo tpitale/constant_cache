@@ -2,8 +2,13 @@ module ConstantCache
 
   CHARACTER_LIMIT = 64
 
-  def self.included(base)
-    base.extend(ClassMethods)
+  def self.included(model)
+    model.extend(ClassMethods)
+    (@descendants ||= []) << model
+  end
+
+  def self.cache!
+    @descendants.each {|klass| klass.all.each {|instance| instance.set_instance_as_constant }}
   end
 
   #
@@ -39,19 +44,22 @@ module ConstantCache
     #
     # Note: In the event that a generated constant conflicts with an existing constant, a 
     # ConstantCache::DuplicateConstantError is raised.
-    #
-    def cache_constants(opts = {})
-      key = opts.fetch(:key, :name)
-      limit = opts.fetch(:limit, CHARACTER_LIMIT)
-      limit = CHARACTER_LIMIT unless limit > 0
 
-      @cache_options = {:key => key, :limit => limit}
+    def cache_as(key)
+      self.cache_options[:key] = key
+    end
 
-      all.each {|instance| instance.set_instance_as_constant }
+    def cache_limit(limit)
+      self.cache_options[:limit] = (limit > 0 ? limit : CHARACTER_LIMIT)
     end
 
     def cache_options
-      @cache_options
+      # @cache_options = {:key => :name, :limit => CHARACTER_LIMIT}.merge(@cache_options || {})
+      @cache_options ||= {:key => :name, :limit => CHARACTER_LIMIT}
+    end
+
+    def reset_cache_options
+      @cache_options = {:key => :name, :limit => CHARACTER_LIMIT}
     end
   end
 

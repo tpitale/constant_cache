@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class Cached
   include ConstantCache
@@ -10,23 +10,23 @@ end
 class CacheMethodsTest < Test::Unit::TestCase
   context "A class with ConstantCache mixed in" do
     should "have default options for the cache key and character limit" do
-      Cached.stubs(:all).returns([])
-      Cached.cache_constants
+      Cached.reset_cache_options
       Cached.cache_options.should == {:key => :name, :limit => 64}
     end
 
     should "all overridden options for key and character limit" do
-      Cached.stubs(:all).returns([])
-      Cached.cache_constants(:key => :abbreviation, :limit => 20)
+      Cached.cache_as :abbreviation
+      Cached.cache_limit 20
       Cached.cache_options.should == {:key => :abbreviation, :limit => 20}
     end
 
     should "revert the limit on characters if less than 1" do
-      Cached.stubs(:all).returns([])
-      Cached.cache_constants(:limit => -10)
+      Cached.cache_limit -10
       Cached.cache_options.should == {:key => :name, :limit => 64}
     end
+  end
 
+  context "ConstantCache" do
     should "be able to cache all instances as constants" do
       c1 = Cached.new
       c1.name = 'al einstein'
@@ -37,14 +37,13 @@ class CacheMethodsTest < Test::Unit::TestCase
       c2.expects(:set_instance_as_constant)
 
       Cached.expects(:all).returns([c1, c2])
-      Cached.cache_constants
+      ConstantCache.cache!
     end
   end
 
   context "An instance of a class with ConstantCache mixed in" do
     setup do
-      Cached.stubs(:all).returns([])
-      Cached.cache_constants(:limit => 20)
+      Cached.cache_limit 20
       @cached = Cached.new
     end
 
