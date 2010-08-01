@@ -1,5 +1,8 @@
 require 'test_helper'
 
+module DataMapper
+end
+
 class Cached
   include ConstantCache
   
@@ -28,6 +31,8 @@ class CacheMethodsTest < Test::Unit::TestCase
 
   context "ConstantCache" do
     should "be able to cache all instances as constants" do
+      DataMapper::Repository = stub(:adapters => ["an adapter"])
+
       c1 = Cached.new
       c1.name = 'al einstein'
       c1.expects(:set_instance_as_constant)

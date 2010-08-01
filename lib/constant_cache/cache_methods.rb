@@ -8,7 +8,7 @@ module ConstantCache
   end
 
   def self.cache!
-    @descendants.each {|klass| klass.all.each {|instance| instance.set_instance_as_constant }}
+    @descendants.each {|klass| klass.cache!}
   end
 
   #
@@ -60,6 +60,12 @@ module ConstantCache
 
     def reset_cache_options
       @cache_options = {:key => :name, :limit => CHARACTER_LIMIT}
+    end
+
+    def cache!
+      unless DataMapper::Repository.adapters.empty?
+        all.each {|instance| instance.set_instance_as_constant }
+      end
     end
   end
 
