@@ -3,31 +3,31 @@ require 'test_helper'
 class CoreExtTest < Test::Unit::TestCase
   context "The String core extension" do
     should "upcase its characters" do
-      'test'.constant_name.should == 'TEST'
+      assert_equal 'TEST', 'test'.constant_name
     end
   
     should "replace whitespace with a single underscore" do
-      "test this \tformat\nplease.".constant_name.should == 'TEST_THIS_FORMAT_PLEASE'
+      assert_equal 'TEST_THIS_FORMAT_PLEASE', "test this \tformat\nplease.".constant_name
     end
   
     should "remove leading and trailing whitespace" do
-      ' test '.constant_name.should == 'TEST'
+      assert_equal 'TEST', ' test '.constant_name
     end
   
     should "remove non-word characters" do
-      '!test?'.constant_name.should == 'TEST'
+      assert_equal 'TEST', '!test?'.constant_name
     end
   
     should "not singularize plural name" do
-      'tests'.constant_name.should == 'TESTS'
+      assert_equal 'TESTS', 'tests'.constant_name
     end
   
     should "return nil when all characters are removed" do
-      '?'.constant_name.should be(nil)
+      assert_nil '?'.constant_name
     end
   
     should "collapse multiple underscores" do
-      'test__me'.constant_name.should == 'TEST_ME'
+      assert_equal 'TEST_ME', 'test__me'.constant_name
     end
   end
 end

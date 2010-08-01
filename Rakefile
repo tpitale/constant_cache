@@ -12,7 +12,8 @@ begin
     gem.homepage          = "http://www.viget.com/extend/"
     gem.files = %w(MIT-LICENSE README.md Rakefile) + Dir.glob("{lib,test}/**/*")
 
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_development_dependency "shoulda", ">= 0"
+    gem.add_development_dependency "jferris-mocha", ">= 0"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

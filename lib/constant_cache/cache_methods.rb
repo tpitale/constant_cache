@@ -22,7 +22,7 @@ module ConstantCache
     # a simple interface to cache the data in the corresponding table as constants on the model:
     #
     #   class Status
-    #     caches_constants
+    #     include ConstantCache
     #   end
     # 
     # It makes certain assumptions about your schema: the constant created is based off of a <tt>name</tt>
@@ -36,7 +36,8 @@ module ConstantCache
     #   class State
     #     include ConstantCache
     # 
-    #     caches_constants :key => :abbreviation, :limit => 2
+    #     cache_as :abbreviation
+    #     cache_limit 2
     #   end
     #
     # This will use the <tt>abbreviation</tt> column to generate constants and will truncate constant names to 2 
@@ -54,7 +55,6 @@ module ConstantCache
     end
 
     def cache_options
-      # @cache_options = {:key => :name, :limit => CHARACTER_LIMIT}.merge(@cache_options || {})
       @cache_options ||= {:key => :name, :limit => CHARACTER_LIMIT}
     end
 

@@ -11,18 +11,18 @@ class CacheMethodsTest < Test::Unit::TestCase
   context "A class with ConstantCache mixed in" do
     should "have default options for the cache key and character limit" do
       Cached.reset_cache_options
-      Cached.cache_options.should == {:key => :name, :limit => 64}
+      assert_equal({:key => :name, :limit => 64}, Cached.cache_options)
     end
 
     should "all overridden options for key and character limit" do
       Cached.cache_as :abbreviation
       Cached.cache_limit 20
-      Cached.cache_options.should == {:key => :abbreviation, :limit => 20}
+      assert_equal({:key => :abbreviation, :limit => 20}, Cached.cache_options)
     end
 
     should "revert the limit on characters if less than 1" do
       Cached.cache_limit -10
-      Cached.cache_options.should == {:key => :name, :limit => 64}
+      assert_equal({:key => :name, :limit => 64}, Cached.cache_options)
     end
   end
 
@@ -50,14 +50,14 @@ class CacheMethodsTest < Test::Unit::TestCase
     should "create a constant as a reference to the instance" do
       @cached.name = 'al sharpton'
       @cached.set_instance_as_constant
-      Cached.constants.include?("AL_SHARPTON").should == true
-      Cached::AL_SHARPTON.should == @cached
+      assert_equal true, Cached.constants.include?("AL_SHARPTON")
+      assert_equal @cached, Cached::AL_SHARPTON
     end
 
     should "not create a constant without a key value" do
       size = Cached.constants.size
       @cached.set_instance_as_constant
-      Cached.constants.size.should == size
+      assert_equal size, Cached.constants.size
     end
 
     should "not raise an exception on duplicate constant" do
@@ -73,8 +73,8 @@ class CacheMethodsTest < Test::Unit::TestCase
 
       @cached.name = 'a'*65
       @cached.set_instance_as_constant
-      
-      Cached.constants.include?(constant_name).should == true
+
+      assert_equal true, Cached.constants.include?(constant_name)
     end
   end
 end
