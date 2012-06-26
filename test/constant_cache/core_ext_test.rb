@@ -29,5 +29,10 @@ class CoreExtTest < Test::Unit::TestCase
     should "collapse multiple underscores" do
       'test__me'.constant_name.should == 'TEST_ME'
     end
+
+    should "convert dashes to underscores" do
+      'test-me'.constant_name.should == 'TEST_ME'
+    end
   end
 end
+
